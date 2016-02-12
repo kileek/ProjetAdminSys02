@@ -5,12 +5,12 @@
 
 ## Système de sauvegarde incrementale sur une machine distante
 ### Fonctionnalités :
-- [ ] Sauvegarde incrementale
-  - [ ] Sur la machine locale
-  - [ ] Sur la machine distante
-- [ ] Système de restauration
-  - [ ] Sur la machine locale
-  - [ ] Sur la machine distante
+- [x] Sauvegarde incrementale
+  - [x] Sur la machine locale
+  - [x] Sur la machine distante
+- [x] Système de restauration
+  - [x] Sur la machine locale
+  - [x] Sur la machine distante
 
 ### Sauvegarde incrementale sur la machine locale
 
@@ -72,3 +72,32 @@ exemple pour lancer un script de sauvegarde toutes les 2mins du lundi au vendred
 ```
 */2 * * * 1-5 /< script sauvegarde >
 ```
+
+### Sauvegarde incrementale sur la machine distante
+  Avant toutes choses il faut installer Rsync sur la machine qui recevra le fichier de backup.
+  
+  Le procéssus est identique à celui pour la sauvegarde local excepté que la commande rsync est étoffé d'autre paramètre comme -e ssh qui permet la connection à la machine distante
+```  
+  	`rsync -azvu -e ssh <repertoire a sauvegarder> 192.168.194.200:<repertoire d'acceuil>`;
+```
+
+
+### Système de restauration sur une machine local
+  
+  Pour la restauration locale , rien de plus enfantin l'on supprime l'ancien repertoire /home par exemple :
+```  
+  `rm -rd /home`;
+```  
+  Puis l'on copie le repertoire de sauvegarde vers le nouveau repertoire :
+```  
+    `cp  -r $backup$nump_rep /home`;
+```  
+
+### Système de restauration sur une machine distante
+
+  Pour se faire il faut utiliser la commande scp :
+```   
+  `scp -r 192.168.194.200:$backup$num_rep 192.168.194.10:/home`
+```     
+    
+  
